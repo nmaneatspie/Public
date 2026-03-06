@@ -2,6 +2,7 @@ import unittest
 from Practice_OOP.src.main import translate_query, solution
 from Practice_OOP.src.container import IntContainer
 
+
 class TestTranslateQuery(unittest.TestCase):
     def setUp(self):
         self.c1 = IntContainer()
