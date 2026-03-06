@@ -36,6 +36,7 @@ def pysearch(search_term: int, search_list: list[int]) -> int:
     except ValueError:
         return -1
 
+
 @time_process
 def binary_search(search_term: int, search_list: list[int]) -> int:
 
@@ -59,8 +60,8 @@ def main(search_term: int, search_list: list, search_method: str = "binary") -> 
 
     index: int = -1
 
-    #search_list.sort()
-    
+    search_list.sort()
+
     match search_method:
         case "binary":
             index, _ = binary_search(search_term, search_list)
@@ -73,14 +74,12 @@ def main(search_term: int, search_list: list, search_method: str = "binary") -> 
         print("{} is not in the list.".format(search_term))
     else:
         print("{} exists in the list.".format(search_term))
-    
+
     return index
 
 
 search_term = 50
 search_list: list[int] = random.sample(range(-10, 1000), 500)
-search_list.sort()
-print(search_list)
 
 if __name__ == "__main__":
     main(search_term, search_list, "binary")
