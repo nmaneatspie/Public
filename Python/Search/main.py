@@ -7,6 +7,14 @@ Simple searching via two different methods. one method is an iterative binary se
 from functools import wraps
 import time
 import random
+import ctypes
+from ctypes import POINTER
+
+so_file = "./cBinarySearch.so"
+c_search = ctypes.CDLL(so_file)
+c_binary_search = c_search.binarySearch
+c_binary_search.argtypes = [ctypes.c_int, POINTER(ctypes.c_int), ctypes.c_int]
+c_binary_search.restype = ctypes.c_int
 
 
 # Timing decorator
@@ -56,6 +64,17 @@ def binary_search(search_term: int, search_list: list[int]) -> int:
     return -1
 
 
+@time_process
+def binary_search_c(search_term: int, search_list: list[int]):
+    c_search_list = (ctypes.c_int * len(search_list))(*search_list)
+    c_search_term = ctypes.c_int(search_term)
+    c_list_size = ctypes.c_int(len(search_list))
+
+    result = c_binary_search(c_search_term, c_search_list, c_list_size)
+
+    return int(result)
+
+
 def main(search_term: int, search_list: list, search_method: str = "binary") -> int:
 
     index: int = -1
@@ -65,6 +84,8 @@ def main(search_term: int, search_list: list, search_method: str = "binary") -> 
     match search_method:
         case "binary":
             index, _ = binary_search(search_term, search_list)
+        case "cbinary":
+            index, _ = binary_search_c(search_term, search_list)
         case "pysearch":
             index, _ = pysearch(search_term, search_list)
         case _:
@@ -78,11 +99,13 @@ def main(search_term: int, search_list: list, search_method: str = "binary") -> 
     return index
 
 
-search_term = 50
-search_list: list[int] = random.sample(range(-10, 1000), 500)
+random_min: int = -10
+random_max: int = 20000
+random_elements: int = 10000
 
-if __name__ == "__main__":
-    main(search_term, search_list, "binary")
-    main(search_term, search_list, "pysearch")
-    main(search_term, search_list, "binary")
-    main(search_term, search_list, "pysearch")
+search_term: int = (random.sample(range(random_min, random_max), 1))[0]
+search_list: list[int] = random.sample(range(random_min, random_max), random_elements)
+
+main(search_term, search_list, "binary")
+main(search_term, search_list, "cbinary")
+main(search_term, search_list, "pysearch")
