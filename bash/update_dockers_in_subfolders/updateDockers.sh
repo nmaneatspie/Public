@@ -1,8 +1,8 @@
 #!/bin/bash
 #change base_dir to folder where the docker folders are held
 base_dir=/home/docker/dockers
-
-declare -a ignoredfolders=("caddy" "stacks")
+#edit below as needed
+declare -a ignoredfolders=("ignore1" "ignore2")
 
 #read -p "Do you want to run 'docker compose up -d' as well? y/[n] " run
 #run=${run:-"n"}
@@ -23,7 +23,6 @@ docker_update(){
 for folder in $base_dir/*
 do
   foldername=$(basename $folder)
-  #edit or remove folder names below as needed
   if [[ ! "${ignoredfolders[@]}" =~ "$foldername" ]]
     for file in $folder/*
     do
