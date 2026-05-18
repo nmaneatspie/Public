@@ -1,6 +1,6 @@
 #!/bin/bash
 #change base_dir to folder where the docker folders are held
-base_dir=/home/docker/dockers/
+base_dir=/home/docker/dockers
 
 #read -p "Do you want to run 'docker compose up -d' as well? y/[n] " run
 #run=${run:-"n"}
