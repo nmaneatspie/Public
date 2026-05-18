@@ -2,6 +2,8 @@
 #change base_dir to folder where the docker folders are held
 base_dir=/home/docker/dockers
 
+declare -a ignoredfolders=("caddy" "stacks")
+
 #read -p "Do you want to run 'docker compose up -d' as well? y/[n] " run
 #run=${run:-"n"}
 run="y"
@@ -22,7 +24,7 @@ for folder in $base_dir/*
 do
   foldername=$(basename $folder)
   #edit or remove folder names below as needed
-  if [ $foldername != "ignore1" ] && [ $foldername != "ignore2" ]
+  if [[ ! "${ignoredfolders[@]}" =~ "$foldername" ]]
     for file in $folder/*
     do
       filename=$(basename $file)
