@@ -21,6 +21,7 @@ docker_update(){
 for folder in $base_dir/*
 do
   foldername=$(basename $folder)
+  #edit or remove folder names below as needed
   if [ $foldername != "ignore1" ] && [ $foldername != "ignore2" ]
     for file in $folder/*
     do
